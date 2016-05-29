@@ -1,10 +1,10 @@
 'use strict';
 
 import React from 'react';
-import DataService from '../services/DataService';
+import DataService from '../../services/DataService';
 import BarChart from './BarChart/BarChart';
 
-export default class App extends React.Component {
+export default class TodayFilms extends React.Component {
     constructor(){
 	super();
 
@@ -56,16 +56,14 @@ export default class App extends React.Component {
 	return (
 	    <div>
 		<input type="text" ref="ratingMark" placeholder="Rating"/>
-
 		<button onClick={this.filterMarksUpper.bind(this)}>Filter by rating</button>
-
 		<BarChart data={this.state.data}/>
 	    </div>
 	)
     }
 }
 
-App.defaultProps = {
+TodayFilms.defaultProps = {
     width: 1200,
     height: 500
 };

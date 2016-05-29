@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class App extends React.Component {
+export default class BarChart extends React.Component {
     constructor(){
 	super();
 
@@ -96,7 +96,7 @@ export default class App extends React.Component {
     }
 }
 
-App.defaultProps = {
+BarChart.defaultProps = {
     width: 1200,
     height: 500
 };

@@ -12,6 +12,16 @@ class ApiService {
 	    })
 	});
     }
+
+    getComingFilms(){
+	return new Promise((resolve, reject) => {
+	    d3.xhr('http://api.kinopoisk.cf/getTodayFilms', ({ response }) => {
+		let { filmsData } = JSON.parse(response);
+
+		resolve(filmsData);
+	    })
+	});
+    }
 }
 
 export default new ApiService

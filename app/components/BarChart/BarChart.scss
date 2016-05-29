@@ -1,0 +1,30 @@
+.bar {
+  transition: all ease .5s;
+
+  &-chart{
+    padding-bottom: 200px;
+    padding-left: 50px;
+    padding-top: 25px;
+    box-sizing: content-box;
+  }
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+

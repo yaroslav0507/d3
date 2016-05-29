@@ -4,18 +4,15 @@ require("./scss/core.scss");
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import StatisticsApp from './components/StatisticsApp';
+import App from './components/App';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
-
-const App = () => (
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <StatisticsApp />
-    </MuiThemeProvider>
-);
 
 ReactDOM.render(
-    <App/>,
+    <Router history={hashHistory}>
+	<Route path="/">
+	    <IndexRoute component={App}/>
+	</Route>
+    </Router>,
     document.getElementById('app')
 );

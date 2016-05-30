@@ -8,7 +8,7 @@ export default class BarChart extends React.Component {
 	super();
 
 	this.state = {
-	    color: 'green'
+	    color: 'lightsteelblue'
 	}
 
     }

@@ -20,21 +20,36 @@ export default class ComingFilms extends React.Component {
     componentDidMount(){
 	return DataService.getComingFilms()
 	    .then(response => {
-		let moviesList = response.map(movie => {
-		    if(movie.rating){
+		return response.children.map(date => {
+
+		    let cinemaDate = date.filter(movie => {
+			return movie && movie.rating;
+		    });
+
+		    let preparedMovieData = cinemaDate.map(movie => {
 			return {
 			    name: movie.nameEN || movie.nameRU,
-			    rating: Number(movie.rating.substr(0, 2))
+			    date: new Date(movie.premiereRU),
+			    close: +movie.rating.substr(0, 2)
 			}
-		    }
-		});
+		    });
 
-		return moviesList.filter(movie => {
-		    return movie && movie.rating !== 0;
-		})
+		    let moviesForDate = {
+			name: cinemaDate[0]['premiereRU'],
+			children: preparedMovieData
+		    };
+
+		    return moviesForDate;
+
+		});
 	    })
 	    .then(data => {
-		this.setState({ data })
+		let treeData = {
+		    name: 'Coming films',
+		    children: data
+		};
+
+		this.setState({ data: treeData })
 	    });
     }
 

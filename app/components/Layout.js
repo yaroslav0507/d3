@@ -6,18 +6,6 @@ import Navigation from '../components/Navigation/Navigation';
 
 export default class Layout extends React.Component {
 
-    constructor(){
-	super();
-    }
-
-    getChildContext(){
-	return {color: "red"}
-    }
-
-    navigate() {
-	this.props.history.pushState(null, '/');
-    }
-
     render(){
 	const { location } = this.props;
 
@@ -29,7 +17,3 @@ export default class Layout extends React.Component {
 	)
     }
 }
-
-Layout.childContextTypes = {
-    color: React.PropTypes.string
-};

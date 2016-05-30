@@ -50,7 +50,8 @@ html {
 
 body {
   min-height: 100%;
-  padding: 0 20px; }
+  padding: 0 20px;
+  background: url(http://mbostock.github.io/d3/talk/20111018/texture-noise.png); }
 
 * {
   box-sizing: border-box; }
@@ -58,6 +59,12 @@ body {
 #app {
   width: 1000px;
   margin: auto; }
+
+.view-title {
+  font-size: 24px;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee; }
 
 .tree-chart {
   padding: 0 100px; }
@@ -97,7 +104,7 @@ body {
     box-sizing: content-box; }
 
 .bar:hover {
-  fill: brown; }
+  fill: #00BCD4; }
 
 .axis {
   font: 10px sans-serif; }

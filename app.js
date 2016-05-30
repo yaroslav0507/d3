@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "7ef20d5b9dc3f5548226"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "14e2c373ca2dcd09dd3c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -20392,14 +20392,14 @@
 	
 													return _react2.default.createElement(
 																	'nav',
-																	null,
+																	{ className: 'nav' },
 																	_react2.default.createElement(
 																					_reactRouter.IndexLink,
 																					{ to: '/', className: "nav__item " + todayClass },
 																					_react2.default.createElement(
 																									_RaisedButton2.default,
 																									{ primary: true, style: style },
-																									'Today films'
+																									'Today most popular films'
 																					)
 																	),
 																	_react2.default.createElement(
@@ -20408,7 +20408,7 @@
 																					_react2.default.createElement(
 																									_RaisedButton2.default,
 																									{ primary: true, style: style },
-																									'Coming films'
+																									'Coming soon films'
 																					)
 																	),
 																	_react2.default.createElement(
@@ -28032,8 +28032,14 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ style: { marginLeft: 15 } },
+					null,
+					_react2.default.createElement(
+						'h2',
+						{ className: 'view-title' },
+						'Most popular films of today'
+					),
 					_react2.default.createElement(_TextField2.default, {
+						style: { marginLeft: 50 },
 						value: this.state.ratingFilterValue,
 						hintText: 'Movies with rating upper than',
 						onChange: this.handleRatingChange.bind(this)
@@ -37694,7 +37700,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+					value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -37715,81 +37721,77 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var svg = void 0;
+	
+	var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+	    width = 960 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
+	
+	var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+	
+	var y = d3.scale.linear().range([height, 0]);
+	
+	var xAxis = d3.svg.axis().scale(x).orient("bottom");
+	
+	var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
+	
 	var BarChart = function (_React$Component) {
-		_inherits(BarChart, _React$Component);
+					_inherits(BarChart, _React$Component);
 	
-		function BarChart() {
-			_classCallCheck(this, BarChart);
+					function BarChart() {
+									_classCallCheck(this, BarChart);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BarChart).apply(this, arguments));
-		}
+									return _possibleConstructorReturn(this, Object.getPrototypeOf(BarChart).apply(this, arguments));
+					}
 	
-		_createClass(BarChart, [{
-			key: 'componentDidUpdate',
-			value: function componentDidUpdate() {
-				var data = this.props.data;
+					_createClass(BarChart, [{
+									key: 'componentDidMount',
+									value: function componentDidMount() {
+													svg = d3.select(_reactDom2.default.findDOMNode(this.refs.BarChart));
+									}
+					}, {
+									key: 'componentDidUpdate',
+									value: function componentDidUpdate() {
+													var data = this.props.data;
 	
+													svg.selectAll("*").remove();
 	
-				var margin = { top: 20, right: 20, bottom: 30, left: 40 },
-				    width = 960 - margin.left - margin.right,
-				    height = 500 - margin.top - margin.bottom;
+													svg.attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
-				var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+													x.domain(data.map(function (d) {
+																	return d.name;
+													}));
+													y.domain([0, d3.max(data, function (d) {
+																	return d.rating;
+													})]);
 	
-				var y = d3.scale.linear().range([height, 0]);
+													svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
 	
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
+													svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text("Rating");
 	
-				var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
+													svg.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("fill", this.context.color).attr("x", function (d) {
+																	return x(d.name);
+													}).attr("width", x.rangeBand()).attr("y", function (d) {
+																	return y(d.rating);
+													}).attr("height", function (d) {
+																	return height - y(d.rating);
+													});
+									}
+					}, {
+									key: 'render',
+									value: function render() {
+													return _react2.default.createElement('svg', { className: 'bar-chart', ref: 'BarChart' });
+									}
+					}]);
 	
-				var svg = d3.select(_reactDom2.default.findDOMNode(this.refs.BarChart));
-				svg.selectAll("*").remove();
-	
-				svg.attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	
-				x.domain(data.map(function (d) {
-					return d.name;
-				}));
-				y.domain([0, d3.max(data, function (d) {
-					return d.rating;
-				})]);
-	
-				svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
-	
-				svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text("Rating");
-	
-				svg.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("fill", this.context.color).attr("x", function (d) {
-					return x(d.name);
-				}).attr("width", x.rangeBand()).attr("y", function (d) {
-					return y(d.rating);
-				}).attr("height", function (d) {
-					return height - y(d.rating);
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement('svg', { className: 'bar-chart', ref: 'BarChart' })
-				);
-			}
-		}]);
-	
-		return BarChart;
+					return BarChart;
 	}(_react2.default.Component);
 	
 	exports.default = BarChart;
 	
 	
-	BarChart.defaultProps = {
-		width: 1200,
-		height: 500
-	};
-	
 	BarChart.contextTypes = {
-		color: _react2.default.PropTypes.string
+					color: _react2.default.PropTypes.string
 	};
 
 /***/ },
@@ -39593,6 +39595,11 @@
 				return _react2.default.createElement(
 					'div',
 					null,
+					_react2.default.createElement(
+						'h2',
+						{ className: 'view-title' },
+						'Films that will soon be released'
+					),
 					_react2.default.createElement(_TreeChart2.default, { data: this.state.data })
 				);
 			}
@@ -39641,6 +39648,18 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var svg = void 0;
+	
+	var margin = { top: 20, right: 120, bottom: 20, left: 120 },
+	    width = 960 - margin.right - margin.left,
+	    height = 800 - margin.top - margin.bottom;
+	
+	var tree = d3.layout.tree().size([height, width]);
+	
+	var diagonal = d3.svg.diagonal().projection(function (d) {
+		return [d.y, d.x];
+	});
+	
 	var TreeChart = function (_React$Component) {
 		_inherits(TreeChart, _React$Component);
 	
@@ -39651,29 +39670,21 @@
 		}
 	
 		_createClass(TreeChart, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				svg = d3.select(_reactDom2.default.findDOMNode(this.refs.TreeChart));
+			}
+		}, {
 			key: 'componentDidUpdate',
 			value: function componentDidUpdate() {
-				console.log("Tree context ", this.context);
 				var data = this.props.data;
 	
 	
-				var margin = { top: 20, right: 120, bottom: 20, left: 120 },
-				    width = 960 - margin.right - margin.left,
-				    height = 800 - margin.top - margin.bottom;
+				svg.attr("width", width + margin.right + margin.left).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
 				var i = 0,
 				    duration = 750,
 				    root = void 0;
-	
-				var tree = d3.layout.tree().size([height, width]);
-	
-				var diagonal = d3.svg.diagonal().projection(function (d) {
-					return [d.y, d.x];
-				});
-	
-				var svg = d3.select(_reactDom2.default.findDOMNode(this.refs.TreeChart));
-	
-				svg.attr("width", width + margin.right + margin.left).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
 				root = data;
 				root.x0 = height / 2;
@@ -39785,11 +39796,7 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement('svg', { className: 'tree-chart', ref: 'TreeChart' })
-				);
+				return _react2.default.createElement('svg', { className: 'tree-chart', ref: 'TreeChart' });
 			}
 		}]);
 	
@@ -39798,11 +39805,6 @@
 	
 	exports.default = TreeChart;
 	
-	
-	TreeChart.defaultProps = {
-		width: 1200,
-		height: 500
-	};
 	
 	TreeChart.contextTypes = {
 		color: _react2.default.PropTypes.string

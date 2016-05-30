@@ -3,33 +3,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+let svg;
+
+const margin = {top: 20, right: 120, bottom: 20, left: 120},
+      width = 960 - margin.right - margin.left,
+      height = 800 - margin.top - margin.bottom;
+
+const tree = d3.layout.tree()
+    .size([height, width]);
+
+const diagonal = d3.svg.diagonal()
+    .projection((d) => { return [d.y, d.x]; });
+
 export default class TreeChart extends React.Component {
 
+    componentDidMount(){
+	svg = d3.select(ReactDOM.findDOMNode(this.refs.TreeChart));
+    }
+
     componentDidUpdate(){
-	console.log("Tree context ", this.context);
-	let { data } = this.props;
-
-	let margin = {top: 20, right: 120, bottom: 20, left: 120},
-	    width = 960 - margin.right - margin.left,
-	    height = 800 - margin.top - margin.bottom;
-
-	let i = 0,
-	    duration = 750,
-	    root;
-
-	let tree = d3.layout.tree()
-	    .size([height, width]);
-
-	let diagonal = d3.svg.diagonal()
-	    .projection((d) => { return [d.y, d.x]; });
-
-	let svg = d3.select(ReactDOM.findDOMNode(this.refs.TreeChart));
+	const { data } = this.props;
 
 	svg
 	    .attr("width", width + margin.right + margin.left)
 	    .attr("height", height + margin.top + margin.bottom)
 	    .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	let i = 0,
+	    duration = 750,
+	    root;
 
 	root = data;
 	root.x0 = height / 2;
@@ -50,6 +53,7 @@ export default class TreeChart extends React.Component {
 	d3.select(self.frameElement).style("height", "800px");
 
 	function update(source, color) {
+
 
 	    let nodes = tree.nodes(root).reverse(),
 		links = tree.links(nodes);
@@ -147,17 +151,10 @@ export default class TreeChart extends React.Component {
 
     render () {
 	return (
-	    <div>
-		<svg className="tree-chart" ref="TreeChart"></svg>
-	    </div>
+	    <svg className="tree-chart" ref="TreeChart"></svg>
 	)
     }
 }
-
-TreeChart.defaultProps = {
-    width: 1200,
-    height: 500
-};
 
 TreeChart.contextTypes = {
     color: React.PropTypes.string

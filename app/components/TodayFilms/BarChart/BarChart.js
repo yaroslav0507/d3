@@ -77,17 +77,10 @@ export default class BarChart extends React.Component {
 
     render () {
 	return (
-	    <div>
-		<svg className="bar-chart" ref="BarChart"></svg>
-	    </div>
+	    <svg className="bar-chart" ref="BarChart"></svg>
 	)
     }
 }
-
-BarChart.defaultProps = {
-    width: 1200,
-    height: 500
-};
 
 BarChart.contextTypes = {
     color: React.PropTypes.string

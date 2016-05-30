@@ -17,7 +17,7 @@ export default class Navigation extends React.Component {
 	const comingClass = location.pathname.match(/^\/coming/) ? activeClassName : '';
 
 	return (
-	    <nav>
+	    <nav className="nav">
 		<IndexLink to="/" className={"nav__item " + todayClass}>
 		    <RaisedButton primary={true} style={style}>Today most popular films</RaisedButton>
 		</IndexLink>

@@ -70,8 +70,6 @@ export default class ComingFilms extends React.Component {
     render () {
 	return (
 	    <div>
-		<input type="text" ref="ratingMark" placeholder="Rating"/>
-		<button onClick={this.filterMarksUpper.bind(this)}>Filter by rating</button>
 		<LineChart data={this.state.data}/>
 	    </div>
 	)

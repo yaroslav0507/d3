@@ -1,22 +1,17 @@
-# Avatar Constructor
+# Movies Statistics tool
 You can see [demo](http://yaroslav0507.github.io/avatar-constructor/);
 
 ## Stack of technologies
 - [WebPack](https://webpack.github.io/);
 - [React JS](https://https://facebook.github.io/react/);
-- [Material UI](http://www.material-ui.com/);
-- [Flux](https://facebook.github.io/flux/);
-- [Fabric JS](http://fabricjs.com/);
-
-## Interface 
-![avatar constructor](https://www.dropbox.com/s/i7g68c7urhcx0dd/avatar_constructor_interface.png?dl=1)
+- [D3](https://d3js.org/);
 
 ## Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) installed.
 
 ```sh
-$ git clone https://github.com/yaroslav0507/avatar-constructor # or clone your own fork
+$ git clone https://github.com/yaroslav0507/d3 # or clone your own fork
 $ npm install
 $ npm start
 ```

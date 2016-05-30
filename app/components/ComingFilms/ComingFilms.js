@@ -66,6 +66,7 @@ export default class ComingFilms extends React.Component {
     render () {
 	return (
 	    <div>
+		<h2 className="view-title">Films that will soon be released</h2>
 		<TreeChart data={this.state.data}/>
 	    </div>
 	)
@@ -74,7 +75,7 @@ export default class ComingFilms extends React.Component {
 
 ComingFilms.defaultProps = {
     width: 1200,
-    height: 500
+    height: 400
 };
 
 ComingFilms.contextTypes = {

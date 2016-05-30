@@ -10,7 +10,6 @@ const style = {
 };
 
 export default class Navigation extends React.Component {
-
     render(){
 	const {location} = this.props;
 	const activeClassName = 'nav__item_active';
@@ -20,10 +19,10 @@ export default class Navigation extends React.Component {
 	return (
 	    <nav>
 		<IndexLink to="/" className={"nav__item " + todayClass}>
-		    <RaisedButton primary={true} style={style}>Today films</RaisedButton>
+		    <RaisedButton primary={true} style={style}>Today most popular films</RaisedButton>
 		</IndexLink>
 		<Link to="coming" className={"nav__item " + comingClass}>
-		    <RaisedButton primary={true} style={style}>Coming films</RaisedButton>
+		    <RaisedButton primary={true} style={style}>Coming soon films</RaisedButton>
 		</Link>
 
 		<RaisedButton secondary={true}

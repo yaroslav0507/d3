@@ -11,7 +11,6 @@ export default class TodayFilms extends React.Component {
 	super();
 
 	this.state = {
-	    ratingFilterValue: 0,
 	    data: []
 	}
     }
@@ -57,15 +56,18 @@ export default class TodayFilms extends React.Component {
 
     render () {
 	return (
-	    <div style={{marginLeft: 15}}>
+	    <div>
+		<h2 className="view-title">Most popular films of today</h2>
+
 		<TextField
+		    style={{marginLeft: 50}}
 		    value={this.state.ratingFilterValue}
 		    hintText="Movies with rating upper than"
 		    onChange={this.handleRatingChange.bind(this)}
 		/>
 		<FlatButton
-		    backgroundColor="#B0C4DE"
-		    hoverColor="#00bcd4"
+		    backgroundColor="#FFFFFF"
+		    hoverColor="#B0C4DE"
 		    label="Filter"
 		    onClick={this.filterMarksUpper.bind(this)}
 		/>
@@ -77,5 +79,5 @@ export default class TodayFilms extends React.Component {
 
 TodayFilms.defaultProps = {
     width: 1200,
-    height: 500
+    height: 400
 };

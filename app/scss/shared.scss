@@ -4,8 +4,22 @@ html {
 
 body {
   min-height: 100%;
+  padding: 0 20px;
+  background: url(http://mbostock.github.io/d3/talk/20111018/texture-noise.png);
 }
 
 * {
   box-sizing: border-box;
+}
+
+#app{
+  width: 1000px;
+  margin: auto;
+}
+
+.view-title{
+  font-size: 24px;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
 }

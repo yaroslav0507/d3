@@ -1,7 +1,13 @@
 'use strict';
 
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 import { IndexLink, Link } from 'react-router';
+
+const style = {
+    margin: 12,
+    color: 'white'
+};
 
 export default class Navigation extends React.Component {
 
@@ -13,14 +19,17 @@ export default class Navigation extends React.Component {
 
 	return (
 	    <nav>
-		<ul className="nav navbar-nav navbar-right">
-		    <li>
-			<IndexLink to="/" className={"nav__item " + todayClass}>Today films</IndexLink>
-		    </li>
-		    <li>
-			<Link to="coming" className={"nav__item " + comingClass}>Coming films</Link>
-		    </li>
-		</ul>
+		<IndexLink to="/" className={"nav__item " + todayClass}>
+		    <RaisedButton primary={true} style={style}>Today films</RaisedButton>
+		</IndexLink>
+		<Link to="coming" className={"nav__item " + comingClass}>
+		    <RaisedButton primary={true} style={style}>Coming films</RaisedButton>
+		</Link>
+
+		<RaisedButton secondary={true}
+			      className="nav__item nav__item_right"
+			      style={style}
+			      onClick={this.props.changeColor}>Change color</RaisedButton>
 	    </nav>
 	)
     }

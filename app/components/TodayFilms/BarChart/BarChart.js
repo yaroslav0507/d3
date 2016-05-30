@@ -4,14 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default class BarChart extends React.Component {
-    constructor(){
-	super();
-
-	this.state = {
-	    color: 'lightsteelblue'
-	}
-
-    }
     componentDidUpdate(){
 	let { data } = this.props;
 
@@ -70,7 +62,7 @@ export default class BarChart extends React.Component {
 	    .enter()
 	    .append("rect")
 		.attr("class", "bar")
-	    	.attr("fill", this.state.color)
+	    	.attr("fill", this.context.color)
 		.attr("x", d => { return x(d.name); })
 		.attr("width", x.rangeBand())
 		.attr("y", d => { return y(d.rating); })
@@ -78,18 +70,9 @@ export default class BarChart extends React.Component {
 
     }
 
-    generateRandomColor() {
-	let color = "hsl(" + Math.random() * 360 + ",100%,50%)";
-
-	this.setState({
-	    color
-	});
-    };
-
     render () {
 	return (
 	    <div>
-		<button onClick={this.generateRandomColor.bind(this)}>Change color of the chart</button>
 		<svg className="bar-chart" ref="BarChart"></svg>
 	    </div>
 	)
@@ -99,4 +82,8 @@ export default class BarChart extends React.Component {
 BarChart.defaultProps = {
     width: 1200,
     height: 500
+};
+
+BarChart.contextTypes = {
+    color: React.PropTypes.string
 };

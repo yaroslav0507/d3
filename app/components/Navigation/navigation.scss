@@ -1,7 +1,22 @@
 .nav{
   &__item{
+    
+    &_right{
+      float: right;
+    }
+
+    button {
+      & > div > div{
+        color: white;
+        padding: 0 25px !important;
+      }
+    }
+
     &_active{
-      color: black !important;
+
+      button{
+        background-color: green !important;
+      }
     }
   }
 }

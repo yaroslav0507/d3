@@ -2,7 +2,7 @@
 
 import React from 'react';
 import DataService from '../../services/DataService';
-import LineChart from './LineChart/LineChart';
+import TreeChart from './TreeChart/TreeChart';
 
 export default class ComingFilms extends React.Component {
     constructor(){
@@ -11,10 +11,6 @@ export default class ComingFilms extends React.Component {
 	this.state = {
 	    data: []
 	}
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-	return this.state.data !== nextState.data;
     }
 
     componentDidMount(){
@@ -70,7 +66,7 @@ export default class ComingFilms extends React.Component {
     render () {
 	return (
 	    <div>
-		<LineChart data={this.state.data}/>
+		<TreeChart data={this.state.data}/>
 	    </div>
 	)
     }
@@ -79,4 +75,8 @@ export default class ComingFilms extends React.Component {
 ComingFilms.defaultProps = {
     width: 1200,
     height: 500
+};
+
+ComingFilms.contextTypes = {
+    color: React.PropTypes.string
 };

@@ -3,17 +3,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class LineChart extends React.Component {
-    constructor(){
-	super();
-
-	this.state = {
-	    color: 'lightsteelblue'
-	}
-
-    }
+export default class TreeChart extends React.Component {
 
     componentDidUpdate(){
+	console.log("Tree context ", this.context);
 	let { data } = this.props;
 
 	let margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -30,8 +23,7 @@ export default class LineChart extends React.Component {
 	let diagonal = d3.svg.diagonal()
 	    .projection((d) => { return [d.y, d.x]; });
 
-	let svg = d3.select(ReactDOM.findDOMNode(this.refs.LineChart));
-	//svg.selectAll("*").remove();
+	let svg = d3.select(ReactDOM.findDOMNode(this.refs.TreeChart));
 
 	svg
 	    .attr("width", width + margin.right + margin.left)
@@ -53,24 +45,20 @@ export default class LineChart extends React.Component {
 
 	root.children.forEach(collapse);
 
-	update(root, this.state.color);
+	update(root, this.context.color);
 
 	d3.select(self.frameElement).style("height", "800px");
 
 	function update(source, color) {
 
-	    // Compute the new tree layout.
 	    let nodes = tree.nodes(root).reverse(),
 		links = tree.links(nodes);
 
-	    // Normalize for fixed-depth.
 	    nodes.forEach((d) => { d.y = d.depth * 180; });
 
-	    // Update the nodes…
 	    let node = svg.selectAll("g.node")
 		.data(nodes, (d) => { return d.id || (d.id = ++i); });
 
-	    // Enter any new nodes at the parent's previous position.
 	    let nodeEnter = node.enter().append("g")
 		.attr("class", "node")
 		.attr("transform", (d) => { return "translate(" + source.y0 + "," + source.x0 + ")"; })
@@ -87,7 +75,6 @@ export default class LineChart extends React.Component {
 		.text((d) => { return d.name; })
 		.style("fill-opacity", 1e-6);
 
-	    // Transition nodes to their new position.
 	    let nodeUpdate = node.transition()
 		.duration(duration)
 		.attr("transform", (d) => { return "translate(" + d.y + "," + d.x + ")"; });
@@ -99,7 +86,6 @@ export default class LineChart extends React.Component {
 	    nodeUpdate.select("text")
 		.style("fill-opacity", 1);
 
-	    // Transition exiting nodes to the parent's new position.
 	    let nodeExit = node.exit().transition()
 		.duration(duration)
 		.attr("transform", (d) => { return "translate(" + source.y + "," + source.x + ")"; })
@@ -111,11 +97,9 @@ export default class LineChart extends React.Component {
 	    nodeExit.select("text")
 		.style("fill-opacity", 1e-6);
 
-	    // Update the links…
 	    let link = svg.selectAll("path.link")
 		.data(links, (d) => { return d.target.id; });
 
-	    // Enter any new links at the parent's previous position.
 	    link.enter().insert("path", "g")
 		.attr("class", "link")
 		.attr("d", (d) => {
@@ -123,12 +107,10 @@ export default class LineChart extends React.Component {
 		    return diagonal({source: o, target: o});
 		});
 
-	    // Transition links to their new position.
 	    link.transition()
 		.duration(duration)
 		.attr("d", diagonal);
 
-	    // Transition exiting nodes to the parent's new position.
 	    link.exit().transition()
 		.duration(duration)
 		.attr("d", (d) => {
@@ -137,14 +119,12 @@ export default class LineChart extends React.Component {
 		})
 		.remove();
 
-	    // Stash the old positions for transition.
 	    nodes.forEach((d) => {
 		d.x0 = d.x;
 		d.y0 = d.y;
 	    });
 	}
 
-// Toggle children on click.
 	function click(d) {
 	    if (d.children) {
 		d._children = d.children;
@@ -168,14 +148,17 @@ export default class LineChart extends React.Component {
     render () {
 	return (
 	    <div>
-		<button onClick={this.generateRandomColor.bind(this)}>Change color of the chart</button>
-		<svg className="line-chart" ref="LineChart"></svg>
+		<svg className="tree-chart" ref="TreeChart"></svg>
 	    </div>
 	)
     }
 }
 
-LineChart.defaultProps = {
+TreeChart.defaultProps = {
     width: 1200,
     height: 500
+};
+
+TreeChart.contextTypes = {
+    color: React.PropTypes.string
 };

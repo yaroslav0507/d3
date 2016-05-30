@@ -20,3 +20,4 @@ Your app should now be running on [localhost:4000](http://localhost:4000/).
 
 ## Developing mode
 All changes in the code will be immediately reflected in your browser by WebPach HRM - Hot Module Replacement
+

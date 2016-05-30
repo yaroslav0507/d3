@@ -3,18 +3,17 @@
 import React from 'react';
 import DataService from '../../services/DataService';
 import BarChart from './BarChart/BarChart';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 export default class TodayFilms extends React.Component {
     constructor(){
 	super();
 
 	this.state = {
+	    ratingFilterValue: 0,
 	    data: []
 	}
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-	return this.state.data !== nextState.data;
     }
 
     componentDidMount(){
@@ -39,24 +38,37 @@ export default class TodayFilms extends React.Component {
     }
 
     filterMarksUpper(){
-	this.componentDidMount().then(() => {
-	    let mark = this.refs.ratingMark.value;
-	    console.log(mark);
+	this.componentDidMount()
+	    .then(() => {
+		let filteredData = this.state.data.filter(item => {
+		    return item.rating > this.state.ratingFilterValue;
+		});
 
-	    let filteredData = this.state.data.filter(item => {
-		return item.rating > mark;
+		this.setState({ data: filteredData });
 	    });
-
-	    this.setState({ data: filteredData });
-	});
-
     }
+
+    handleRatingChange = (event) => {
+	this.setState({
+	    ratingFilterValue: event.target.value
+	});
+    };
+
 
     render () {
 	return (
-	    <div>
-		<input type="text" ref="ratingMark" placeholder="Rating"/>
-		<button onClick={this.filterMarksUpper.bind(this)}>Filter by rating</button>
+	    <div style={{marginLeft: 15}}>
+		<TextField
+		    value={this.state.ratingFilterValue}
+		    hintText="Movies with rating upper than"
+		    onChange={this.handleRatingChange.bind(this)}
+		/>
+		<FlatButton
+		    backgroundColor="#B0C4DE"
+		    hoverColor="#00bcd4"
+		    label="Filter"
+		    onClick={this.filterMarksUpper.bind(this)}
+		/>
 		<BarChart data={this.state.data}/>
 	    </div>
 	)
